@@ -78,4 +78,12 @@ router.get("/userData/:id", async (ctx, next) => {
     await next();
 });
 
+router.get("/classes", requireAuthenticated(), async (ctx, next) => {
+    const { user } = ctx.session!;
+    const data = await getUserData("id", user);
+    ctx.status = 200;
+    ctx.body = data!.classes;
+    await next();
+});
+
 export default router.routes();
