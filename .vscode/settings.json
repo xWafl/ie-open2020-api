@@ -1,0 +1,8 @@
+{
+    "editor.minimap.size": "fit",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": ["javascript", "typescript"],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
+}
