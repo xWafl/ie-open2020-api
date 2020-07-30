@@ -5,7 +5,6 @@ import { expect } from "chai";
 import { server } from "../../";
 
 import users from "../../../db/seeds/examples/users";
-import knex from "../../../db/knex";
 
 const homework = {
     classid: 1,
@@ -25,6 +24,14 @@ const homework = {
             correctChoice: "also mao"
         }
     ]
+};
+
+const homeworkResp = {
+    id: 1,
+    classid: 1,
+    name: "le amazing homework",
+    dueDate: (Date.now() + 3600000).toString(),
+    questions: [1, 2]
 };
 
 const agent = request.agent(server);
@@ -57,11 +64,20 @@ describe("Homework router", () => {
         });
     });
 
-    it("Can complete homework", async () => {
+    it("Gets all homework needed to be completed", async () => {
         const { name, password } = users[2];
         await agent.get("/api/auth/logout");
         await agent.post("/api/auth/login").send({ username: name, password });
 
+        const response = await agent
+            .get(`/api/homework/allHWForUser`)
+            .set("Accept", "application/json")
+            .expect(200);
+
+        expect(response.body).to.deep.equal([homeworkResp]);
+    });
+
+    it("Can complete homework", async () => {
         const response = await agent
             .post(`/api/homework/completeHW`)
             .send({

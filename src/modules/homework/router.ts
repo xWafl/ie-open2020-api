@@ -42,7 +42,7 @@ router.post("/completeHW", requireStudent(), async (ctx, next) => {
 
 router.get("/allHWForUser", requireStudent(), async (ctx, next) => {
     const { user } = ctx.session!;
-    const homework = getAllHwForUser(user);
+    const homework = await getAllHwForUser(user);
     if (!homework) {
         // I put this because I have no idea what happens if homework is null, that only happens if the user id is invalid
         throw new HttpError(400, "Something went wrong");
