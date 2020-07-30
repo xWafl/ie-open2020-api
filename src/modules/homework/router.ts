@@ -70,4 +70,22 @@ router.get(
     }
 );
 
+router.get("/hwData/:hwId", requireAuthenticated(), async (ctx, next) => {
+    const { user } = ctx.session!;
+    const { hwId } = ctx.params;
+    const hwForUser = await getAllHwForUser(user);
+    if (!hwForUser) {
+        throw new HttpError(400, "Something went wrong");
+    }
+    if (!hwForUser.map(l => l.id).includes(hwId)) {
+        throw new HttpError(400, "You don't have access to that");
+    }
+    const hw = hwForUser.find(l => l.id === hwId);
+    ctx.status = 200;
+    ctx.body = {
+        hw
+    };
+    await next();
+});
+
 export default router.routes();
