@@ -8,6 +8,8 @@ import checkHwScore from "./actions/checkHwScore";
 import completeHw from "./actions/completeHw";
 import { HttpError } from "../../common/error/classes/httpError";
 import getAllHwForUser from "./actions/getAllHwForUser";
+import { requireAuthenticated } from "../auth/middleware/requireAuthenticated";
+import getHwForClass from "./actions/getHwForClass";
 
 const router = new Router({ prefix: "/homework" });
 
@@ -51,5 +53,21 @@ router.get("/allHWForUser", requireStudent(), async (ctx, next) => {
     ctx.body = homework;
     await next();
 });
+
+router.get(
+    "/hwForClass/:classid",
+    requireAuthenticated(),
+    async (ctx, next) => {
+        const { user } = ctx.session!;
+        const { classid } = ctx.params;
+        const resp = await getHwForClass(user, classid);
+        if (!resp) {
+            throw new HttpError(400, "You can't access that class data");
+        }
+        ctx.status = 200;
+        ctx.body = resp;
+        await next();
+    }
+);
 
 export default router.routes();
