@@ -7,6 +7,7 @@ import { requireStudent } from "../auth/middleware/requireStudent";
 import checkHwScore from "./actions/checkHwScore";
 import completeHw from "./actions/completeHw";
 import { HttpError } from "../../common/error/classes/httpError";
+import getAllHwForUser from "./actions/getAllHwForUser";
 
 const router = new Router({ prefix: "/homework" });
 
@@ -36,6 +37,18 @@ router.post("/completeHW", requireStudent(), async (ctx, next) => {
     ctx.body = {
         message: `You have completed an assignment! Your grade was ${resp.score}`
     };
+    await next();
+});
+
+router.get("/allHWForUser", requireStudent(), async (ctx, next) => {
+    const { user } = ctx.session!;
+    const homework = getAllHwForUser(user);
+    if (!homework) {
+        // I put this because I have no idea what happens if homework is null, that only happens if the user id is invalid
+        throw new HttpError(400, "Something went wrong");
+    }
+    ctx.status = 200;
+    ctx.body = homework;
     await next();
 });
 
