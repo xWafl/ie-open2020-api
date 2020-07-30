@@ -2,8 +2,8 @@ import Knex from "knex";
 
 export const up = async (knex: Knex) => {
     return knex.schema.table("classes", table => {
-        table.specificType("homework", "INT[]").notNullable();
-        table.jsonb("studentHWProgress").notNullable();
+        table.specificType("homework", "INT[]");
+        table.jsonb("studentHWProgress");
     });
 };
 

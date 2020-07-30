@@ -5,7 +5,8 @@ export const up = async (knex: Knex) => {
         table.increments("id");
         table.integer("classid").notNullable();
         table.string("name").notNullable();
-        table.specificType("questions", "INT[]").notNullable();
+        table.specificType("questions", "INT[]");
+
         table.bigInteger("dueDate").notNullable();
     });
 };
