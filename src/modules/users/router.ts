@@ -49,9 +49,9 @@ router.post(
     "/createUser",
     validateSchema(registerBody, "body"),
     async (ctx, next) => {
-        const { name, password, email } = ctx.request.body as RegisterBody;
+        const { name, password, role } = ctx.request.body as RegisterBody;
 
-        const user = await createUser({ email, name, password });
+        const user = await createUser({ role, name, password });
 
         if (!user) {
             throw new HttpError(400, "That username seems to be already taken");

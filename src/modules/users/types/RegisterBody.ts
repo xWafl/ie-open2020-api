@@ -1,5 +1,7 @@
+import { Role } from "./Role";
+
 export interface RegisterBody {
-    email: string;
+    role: Role;
     name: string;
     password: string;
 }
