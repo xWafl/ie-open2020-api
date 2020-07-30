@@ -1,3 +1,5 @@
+import { StudentStatus } from "../../websockets/classesData";
+
 interface StudentHWProgress {
     completed: boolean;
     score: number;
@@ -11,4 +13,5 @@ export default interface Class {
     code: string;
     homework: number[];
     studentHWProgress: Record<number, Record<number, StudentHWProgress>>;
+    studentStatus: Record<number, StudentStatus>;
 }

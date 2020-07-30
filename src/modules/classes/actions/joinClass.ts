@@ -34,7 +34,11 @@ export default async (userid: number, classid: number) => {
             students: knex.raw("array_append(students, ?)", [userid]),
             studentHWProgress: {
                 ...matchingClass.studentHWProgress,
-                userid: newHWProgress(matchingClass.homework)
+                [userid]: newHWProgress(matchingClass.homework)
+            },
+            studentStatus: {
+                ...matchingClass.studentStatus,
+                [userid]: "offline"
             }
         })
         .where({ id: classid });

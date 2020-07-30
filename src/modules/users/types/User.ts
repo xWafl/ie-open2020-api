@@ -1,5 +1,7 @@
 type Role = "student" | "teacher" | "admin";
 
+type StudentStatus = "online" | "idle" | "offline";
+
 export default interface User {
     id: number;
     name: string;
@@ -7,4 +9,5 @@ export default interface User {
     role: Role;
     emailkey?: string;
     classes: number[];
+    studentStatus: Record<number, StudentStatus>;
 }

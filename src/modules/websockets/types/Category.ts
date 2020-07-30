@@ -4,7 +4,7 @@ export type ResponseCategory =
     | "newMessage"
     | "loginClassResponse"
     | "leaveClassResponse"
-    | "updateResponse";
+    | "studentStatusUpdate";
 
 export type IncomingCategory =
     | "ping"
