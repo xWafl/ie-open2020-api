@@ -10,7 +10,7 @@ import { HttpError } from "../../common/error/classes/httpError";
 import getAllHwForUser from "./actions/getAllHwForUser";
 import { requireAuthenticated } from "../auth/middleware/requireAuthenticated";
 import getHwForClass from "./actions/getHwForClass";
-import getHwQuestions from './actions/getHwQuestions';
+import getHwQuestions from "./actions/getHwQuestions";
 
 const router = new Router({ prefix: "/homework" });
 
@@ -85,10 +85,11 @@ router.get("/hwData/:hwId", requireAuthenticated(), async (ctx, next) => {
     const questions = await getHwQuestions(hw.id);
     ctx.status = 200;
     ctx.body = {
-        hw: {...hw, questions: questions.map(l => {
+        ...hw,
+        questions: questions.map(l => {
             const { correctChoice, ...data } = l;
             return data;
-        }))
+        })
     };
     await next();
 });
