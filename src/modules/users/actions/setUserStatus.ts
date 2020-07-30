@@ -29,8 +29,18 @@ export default async (
             data: [
                 {
                     client: classes[classid].teacher.ws,
-                    data: `A student has left the tab`
-                }
+                    data: {
+                        status,
+                        id: userid
+                    }
+                },
+                ...classes[classid].students.map(l => ({
+                    client: l.ws,
+                    data: {
+                        status,
+                        id: userid
+                    }
+                }))
             ]
         }
     ];
