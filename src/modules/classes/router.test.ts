@@ -6,16 +6,11 @@ import { server } from "../../";
 
 import users from "../../../db/seeds/examples/users";
 import knex from "../../../db/knex";
+import Class from "./types/Class";
 
 const agent = request.agent(server);
 
-describe("Auth router", () => {
-    before(async function() {
-        this.timeout(20000);
-        await knex.migrate.latest();
-        await knex.seed.run();
-    });
-
+describe("Classes router", () => {
     it("Logs-in a user", async () => {
         const { name, password } = users[1];
 
@@ -31,12 +26,17 @@ describe("Auth router", () => {
         });
     });
 
-    it("Logs-out a user", async () => {
+    it("Joins a class by a code", async () => {
+        const { code } = (await knex<Class>("classes").first())!;
+
         const response = await agent
-            .get(`/api/auth/logout`)
+            .post(`/api/classes/joinClassByCode`)
+            .send({ code })
             .set("Accept", "application/json")
             .expect(200);
 
-        expect(response.body.message).to.equal("Successfully logged out");
+        expect(response.body).to.deep.equal({
+            message: "Successfully joined class"
+        });
     });
 });

@@ -29,7 +29,8 @@ export const createUser = async (
             {
                 ...user,
                 password: encryptedPassword,
-                emailKey: genNewKey()
+                classes: [],
+                emailkey: genNewKey()
             },
             "*"
         )

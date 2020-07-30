@@ -13,24 +13,28 @@ export default [
         name: "UserUser",
         password: "UserPass",
         role: "admin",
-        classes: []
+        classes: [],
+        emailkey: "blah"
     },
     {
         name: "MKGUN3",
         password: "MaoGay",
-        role: "member",
-        classes: []
+        role: "teacher",
+        classes: [],
+        emailkey: "blah"
     },
     {
         name: "NotAUser",
         password: "nothing",
-        role: "unverified",
-        classes: []
+        role: "student",
+        classes: [],
+        emailkey: "blah"
     },
     {
         name: "Guy2",
         password: "JustAGuy",
-        role: "member",
-        classes: []
+        role: "student",
+        classes: [],
+        emailkey: "blah"
     }
 ] as readonly Users[];

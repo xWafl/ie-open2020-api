@@ -11,8 +11,8 @@ const genNewKey = () =>
         )
         .join("");
 
-export default async (teacher: number, name: string) => {
-    await knex<Class>("classes").insert({
+export default (teacher: number, name: string) => {
+    return knex<Class>("classes").insert({
         teacher,
         name,
         students: [],

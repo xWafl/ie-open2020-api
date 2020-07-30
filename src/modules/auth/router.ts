@@ -15,15 +15,15 @@ router.post(
     requireUnauthenticated(),
     validateSchema(loginBody, "body"),
     async (ctx, next) => {
-        const { email, password } = ctx.request.body as LoginBody;
+        const { username, password } = ctx.request.body as LoginBody;
 
         const session = ctx.session!;
 
-        const user = await findUser("email", email);
+        const user = await findUser("name", username);
         if (!user)
             throw new HttpError(
                 400,
-                "There seems to be no user with that email"
+                "There seems to be no user with that username"
             );
 
         const valid = await bcrypt.compare(password, user.password);

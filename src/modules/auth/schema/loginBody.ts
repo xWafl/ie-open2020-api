@@ -1,8 +1,6 @@
 import Joi from "@hapi/joi";
 
 export const loginBody = Joi.object({
-    email: Joi.string()
-        .email()
-        .required(),
+    username: Joi.string().required(),
     password: Joi.string().required()
 });
