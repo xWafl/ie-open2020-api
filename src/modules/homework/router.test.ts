@@ -27,7 +27,7 @@ describe("Homework router", () => {
     before(async () => {
         const { name, password } = users[1];
 
-        const response = await agent
+        await agent
             .post(`/api/auth/login`)
             .send({ username: name, password })
             .set("Accept", "application/json")
@@ -44,10 +44,10 @@ describe("Homework router", () => {
                 questions: homework.questions
             })
             .set("Accept", "application/json")
-            .expect(200);
+            .expect(201);
 
         expect(response.body).to.deep.equal({
-            message: "Successfully joined class"
+            message: "Successfully added homework"
         });
     });
 });
