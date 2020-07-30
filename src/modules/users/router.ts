@@ -6,12 +6,6 @@ import { createUser } from "./actions/createUser";
 import getUserData from "./actions/getUserData";
 import { registerBody } from "./schema/registerBody";
 import { RegisterBody } from "./types/RegisterBody";
-import changePassword from "./actions/changePassword";
-import {
-    keyValid,
-    forgotPassword,
-    resetPassword
-} from "./actions/forgotPassword";
 import { requireAdmin } from "../auth/middleware/requireAdmin";
 import getAllUsers from "./actions/getAllUsers";
 import deleteUser from "./actions/deleteUser";
@@ -80,72 +74,6 @@ router.get("/userData/:id", async (ctx, next) => {
 
     ctx.status = 200;
     ctx.body = data;
-
-    await next();
-});
-
-router.patch("/changePassword", requireAuthenticated(), async (ctx, next) => {
-    const { user } = ctx.session!;
-
-    const { oldPassword, newPassword } = ctx.request.body;
-
-    const response = await changePassword(user, oldPassword, newPassword);
-
-    if (response) {
-        throw new HttpError(400, response);
-    }
-
-    ctx.status = 200;
-    ctx.body = { message: "Successfully changed password" };
-
-    await next();
-});
-
-router.post("/requestForgotPassword", async (ctx, next) => {
-    const { email } = ctx.request.body;
-
-    const emailExists = await forgotPassword(email);
-
-    if (!emailExists) {
-        throw new HttpError(400, "The provided email does not have an account");
-    }
-
-    ctx.status = 200;
-    ctx.body = {
-        message: "Success, an email has been sent to your email address"
-    };
-
-    await next();
-});
-
-router.get("/forgotPassword/:key", async (ctx, next) => {
-    const { key } = ctx.params;
-
-    if (await keyValid(key)) {
-        ctx.status = 200;
-        ctx.redirect(
-            `${process.env.CORS_ORIGIN}/#/loginregister/resetPassword/${key}`
-        );
-    } else {
-        ctx.status = 400;
-        ctx.redirect(`${process.env.CORS_ORIGIN}/#/loginregister/invalidKey`);
-    }
-    await next();
-});
-
-router.post("/resetPassword", async (ctx, next) => {
-    const { key, password, confirmPassword } = ctx.request.body;
-
-    const response = await resetPassword(key, password, confirmPassword);
-
-    if (response) {
-        throw new HttpError(400, response);
-    }
-
-    ctx.status = 200;
-    ctx.body = {
-        message: "Successfully reset password"
-    };
 
     await next();
 });
