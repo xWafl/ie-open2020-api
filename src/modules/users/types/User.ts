@@ -6,4 +6,5 @@ export default interface User {
     password: string;
     role: Role;
     emailKey?: string;
+    classes: number[];
 }

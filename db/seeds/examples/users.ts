@@ -5,27 +5,32 @@ interface Users {
     password: string;
     role: Role;
     emailkey?: string;
+    classes: number[];
 }
 
 export default [
     {
         name: "UserUser",
         password: "UserPass",
-        role: "admin"
+        role: "admin",
+        classes: []
     },
     {
         name: "MKGUN3",
         password: "MaoGay",
-        role: "member"
+        role: "member",
+        classes: []
     },
     {
         name: "NotAUser",
         password: "nothing",
-        role: "unverified"
+        role: "unverified",
+        classes: []
     },
     {
         name: "Guy2",
         password: "JustAGuy",
-        role: "member"
+        role: "member",
+        classes: []
     }
 ] as readonly Users[];
