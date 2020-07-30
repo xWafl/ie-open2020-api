@@ -1,12 +1,14 @@
 import Router from "../Router";
-import { requireAuthenticated } from "../auth/middleware/requireAuthenticated";
 import joinClass from "./actions/joinClass";
 import { HttpError } from "../../common/error/classes/httpError";
 import joinClassByCode from "./actions/joinClassByCode";
+import { requireTeacher } from "../auth/middleware/requireTeacher";
+import { requireStudent } from "../auth/middleware/requireStudent";
+import newClass from "./actions/newClass";
 
 const router = new Router({ prefix: "/classes" });
 
-router.post("/joinClass", requireAuthenticated(), async (ctx, next) => {
+router.post("/joinClass", requireStudent(), async (ctx, next) => {
     const { classId } = ctx.request.body;
 
     const { user } = ctx.session!;
@@ -29,7 +31,7 @@ router.post("/joinClass", requireAuthenticated(), async (ctx, next) => {
     await next();
 });
 
-router.post("/joinClassByCode", requireAuthenticated(), async (ctx, next) => {
+router.post("/joinClassByCode", requireStudent(), async (ctx, next) => {
     const { code } = ctx.request.body;
 
     const { user } = ctx.session!;
@@ -49,6 +51,17 @@ router.post("/joinClassByCode", requireAuthenticated(), async (ctx, next) => {
         message: "Successfully joined class"
     };
 
+    await next();
+});
+
+router.post("/newClass", requireTeacher(), async (ctx, next) => {
+    const { user } = ctx.session!;
+    const { name } = ctx.request.body;
+    await newClass(user, name);
+    ctx.status = 201;
+    ctx.body = {
+        message: "Successfully made a class"
+    };
     await next();
 });
 
