@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 
 export const registerBody = Joi.object({
     role: Joi.string().valid("student", "teacher", "admin"),
-    username: Joi.string()
+    name: Joi.string()
         .min(2)
         .max(32)
         .required(),

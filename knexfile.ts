@@ -8,7 +8,8 @@ const options = {
     client: process.env.DB_CLIENT || "sqlite3",
     connection: process.env.CONNECTION
         ? {
-              database: process.env.CONNECTION
+              database: process.env.CONNECTION,
+              user: process.env.PG_USER
           }
         : {
               filename: "db/db.sqlite3"
@@ -32,7 +33,8 @@ const configs: Record<string, Config> = {
         ...options,
         connection: process.env.TEST_CONNECTION
             ? {
-                  database: process.env.TEST_CONNECTION
+                  database: process.env.TEST_CONNECTION,
+                  user: process.env.PG_USER
               }
             : {
                   filename: "db/db.sqlite3"
