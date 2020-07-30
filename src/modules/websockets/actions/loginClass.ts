@@ -3,6 +3,7 @@ import HandlerResponse from "../types/HandlerResponse";
 import { classes } from "../classesData";
 import userInClass from "../../users/actions/userInClass";
 import getClassMessages from "../../classes/actions/getClassMessages";
+import setUserStatus from "../../users/actions/setUserStatus";
 
 const genNewKey = () =>
     Number(
@@ -61,29 +62,7 @@ export default async (
     }
     classes[data.classid].students.push({
         ws,
-        id: data.id,
-        key: genNewKey(),
-        status: "online"
+        id: data.id
     });
-    const censoredClass = {
-        ...classes[data.classid],
-        students: classes[data.classid].students.map(l => {
-            const { key, ...data } = l;
-            return data;
-        })
-    };
-    return [
-        {
-            category: "loginClassResponse",
-            data: [
-                {
-                    client: ws,
-                    data: {
-                        messages: await getClassMessages(data.classid),
-                        classData: censoredClass
-                    }
-                }
-            ]
-        }
-    ];
+    return setUserStatus(data.id, data.classid, "online");
 };
