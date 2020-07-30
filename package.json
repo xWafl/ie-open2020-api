@@ -18,7 +18,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Project-Unknown-GH/unknown-server.git"
+        "url": "git+https://github.com/xWafl/ie-open2020-api.git"
     },
     "keywords": [
         "koa",
@@ -28,9 +28,9 @@
     "author": "ImperialWater",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Project-Unknown-GH/unknown-server/issues"
+        "url": "https://github.com/xWafl/ie-open2020-api/issues"
     },
-    "homepage": "https://github.com/Project-Unknown-GH/unknown-server#readme",
+    "homepage": "https://github.com/xWafl/ie-open2020-api#readme",
     "devDependencies": {
         "@types/bcrypt": "^3.0.0",
         "@types/chai": "^4.2.7",
