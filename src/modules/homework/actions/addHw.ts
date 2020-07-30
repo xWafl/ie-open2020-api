@@ -3,9 +3,14 @@ import Homework from "../types/Homework";
 import knex from "../../../../db/knex";
 import Class from "../../classes/types/Class";
 
-const newHWProgress = (homeworkids: number[]) =>
+const newHWProgress = (
+    hwid: number,
+    progress: Class["studentHWProgress"],
+    homeworkids: number[]
+) =>
     homeworkids.reduce((acc, cur) => {
-        acc[cur] = {
+        acc[cur] = progress[cur] || {};
+        acc[cur][hwid] = {
             completed: false,
             score: 100
         };
@@ -42,7 +47,11 @@ export default async (
             "*"
         )
     )[0];
-    const modifiedRespQuestions = newHWProgress(matchingClass.students);
+    const modifiedRespQuestions = newHWProgress(
+        newHWId,
+        matchingClass.studentHWProgress,
+        matchingClass.students
+    );
     await knex<Class>("classes").update({
         homework: knex.raw("array_append(homework, ?)", [resp.id]),
         studentHWProgress: modifiedRespQuestions

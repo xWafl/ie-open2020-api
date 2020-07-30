@@ -29,7 +29,6 @@ export default async (userid: number, classid: number) => {
     const matchingClass = (await knex<Class>("classes")
         .where({ id: classid })
         .first())!;
-    console.log(newHWProgress(matchingClass.homework));
     await knex("classes")
         .update({
             students: knex.raw("array_append(students, ?)", [userid]),

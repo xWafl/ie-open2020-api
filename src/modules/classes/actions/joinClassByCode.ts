@@ -2,6 +2,15 @@ import knex from "../../../../db/knex";
 import User from "../../users/types/User";
 import Class from "../types/Class";
 
+const newHWProgress = (homeworkids: number[]) =>
+    homeworkids.reduce((acc, cur) => {
+        acc[cur] = {
+            completed: false,
+            score: 100
+        };
+        return acc;
+    }, {});
+
 export default async (userid: number, code: string) => {
     const user = await knex<User>("users")
         .where({ id: userid })
@@ -22,7 +31,11 @@ export default async (userid: number, code: string) => {
         .where({ id: userid });
     await knex("classes")
         .update({
-            students: knex.raw("array_append(students, ?)", [userid])
+            students: knex.raw("array_append(students, ?)", [userid]),
+            studentHWProgress: {
+                ...matchingClass.studentHWProgress,
+                userid: newHWProgress(matchingClass.homework)
+            }
         })
         .where({ id: matchingClass.id });
 };

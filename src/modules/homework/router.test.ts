@@ -17,6 +17,12 @@ const homework = {
             type: "choice",
             choices: ["mao", "bg", "waff", "pgsh"],
             correctChoice: "mao"
+        },
+        {
+            name: "who is fat",
+            type: "short",
+            choices: [],
+            correctChoice: "also mao"
         }
     ]
 };
@@ -48,6 +54,28 @@ describe("Homework router", () => {
 
         expect(response.body).to.deep.equal({
             message: "Successfully added homework"
+        });
+    });
+
+    it("Can complete homework", async () => {
+        const { name, password } = users[2];
+        await agent.get("/api/auth/logout");
+        await agent.post("/api/auth/login").send({ username: name, password });
+
+        const response = await agent
+            .post(`/api/homework/completeHW`)
+            .send({
+                homeworkid: 1,
+                choices: {
+                    1: "mao",
+                    2: "bananya"
+                }
+            })
+            .set("Accept", "application/json")
+            .expect(200);
+
+        expect(response.body).to.deep.equal({
+            message: "You have completed an assignment! Your grade was 50"
         });
     });
 });
