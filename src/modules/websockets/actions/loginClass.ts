@@ -59,7 +59,12 @@ export default async (
             }
         ];
     }
-    classes[data.classid].students.push({ ws, id: data.id, key: genNewKey() });
+    classes[data.classid].students.push({
+        ws,
+        id: data.id,
+        key: genNewKey(),
+        status: "online"
+    });
     const censoredClass = {
         ...classes[data.classid],
         students: classes[data.classid].students.map(l => {

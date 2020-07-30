@@ -4,6 +4,8 @@ import HandlerResponse from "./types/HandlerResponse";
 import newMessage from "./actions/newMessage";
 import loginClass from "./actions/loginClass";
 import leaveClass from "./actions/leaveClass";
+import setAway from "./actions/setAway";
+import setOnline from "./actions/setOnline";
 
 type WsRoutes<T> = {
     [K in keyof T]?: (
@@ -16,20 +18,16 @@ interface WsRoutesData {
     newMessage: { id: number; message: string; classid: number };
     loginClass: { id: number; classid: number };
     leaveClass: { id: number; classid: number };
-    switchQueueLocation: number;
-    updateProgress: {
-        key: number;
-        progress: number;
-        wpm: number;
-        rawwpm: number;
-        acc: number;
-    };
+    setAway: { id: number; classid: number };
+    setOnline: { id: number; classid: number };
 }
 
 const wsRoutes: WsRoutes<WsRoutesData> = {
     newMessage,
     loginClass,
-    leaveClass
+    leaveClass,
+    setAway,
+    setOnline
 };
 
 export default async (
