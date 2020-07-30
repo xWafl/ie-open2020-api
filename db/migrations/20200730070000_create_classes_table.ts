@@ -6,6 +6,7 @@ export const up = async (knex: Knex) => {
         table.integer("teacher").notNullable();
         table.specificType("students", "INT[]").notNullable();
         table.string("name").notNullable();
+        table.string("code").notNullable();
     });
 };
 
