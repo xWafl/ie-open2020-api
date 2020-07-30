@@ -1,12 +1,16 @@
 import knex from "../../../../db/knex";
 import User from "../types/User";
+import Class from "../../classes/types/Class";
 
 export default async (userid: number, classid: number) => {
-    const user = await knex<User>("users")
-        .where({ id: userid })
+    const matchingClass = await knex<Class>("classes")
+        .where({ id: classid })
         .first();
-    if (!user) {
+    if (!matchingClass) {
         return null;
     }
-    return user.classes.includes(classid);
+    return (
+        matchingClass.students.includes(userid) ||
+        matchingClass.teacher === userid
+    );
 };

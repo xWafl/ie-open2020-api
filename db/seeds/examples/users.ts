@@ -20,7 +20,7 @@ export default [
         name: "MKGUN3",
         password: "MaoGay",
         role: "teacher",
-        classes: [],
+        classes: [1],
         emailkey: "blah"
     },
     {
