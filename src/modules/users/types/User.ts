@@ -1,8 +1,7 @@
-type Role = "unverified" | "member" | "admin";
+type Role = "student" | "teacher" | "admin";
 
 export default interface User {
     id: number;
-    email: string;
     name: string;
     password: string;
     role: Role;
