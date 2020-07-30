@@ -1,10 +1,6 @@
 import WebSocket from "ws";
 import categoryParser from "./middleware/categoryParser";
-import joinQueue from "./actions/joinQueue";
-import leaveQueue from "./actions/leaveQueue";
 import HandlerResponse from "./types/HandlerResponse";
-import switchQueueLocation from "./actions/switchQueueLocation";
-import updateProgress from "./actions/updateProgress";
 import { Difficulty } from "./gamesData";
 
 type WsRoutes<T> = {
@@ -27,12 +23,7 @@ interface WsRoutesData {
     };
 }
 
-const wsRoutes: WsRoutes<WsRoutesData> = {
-    joinQueue,
-    leaveQueue,
-    switchQueueLocation,
-    updateProgress
-};
+const wsRoutes: WsRoutes<WsRoutesData> = {};
 
 export default async (
     wss: WebSocket.Server,

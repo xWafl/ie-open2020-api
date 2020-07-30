@@ -2,10 +2,6 @@ import pg from "pg";
 import { Config } from "knex";
 import { config } from "dotenv";
 
-if (process.env.NODE_ENV === "true") {
-    pg.defaults.ssl = true;
-}
-
 config();
 
 const options = {
