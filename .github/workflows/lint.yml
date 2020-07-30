@@ -22,12 +22,6 @@ jobs:
             - name: Config npm
               run: npm config set verify-store-integrity false
 
-            - name: Cache node_modules
-              uses: actions/cache@v1
-              with:
-                  path: ~/.npm-store
-                  key: ${{ hashFiles('npm-lock.yaml') }}
-
             - name: Install dependencies
               run: npm i
 
