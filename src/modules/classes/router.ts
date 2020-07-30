@@ -13,6 +13,7 @@ import userInClass from "../users/actions/userInClass";
 import getClassResources from "./actions/getClassResources";
 import deleteResource from "./actions/deleteResource";
 import getClassData from "./actions/getClassData";
+import leaveClass from "../websockets/actions/leaveClass";
 
 const router = new Router({ prefix: "/classes" });
 
@@ -82,6 +83,17 @@ router.post("/newClass", requireTeacher(), async (ctx, next) => {
     ctx.status = 201;
     ctx.body = {
         message: "Successfully made a class"
+    };
+    await next();
+});
+
+router.post("/leaveClass", requireStudent(), async (ctx, next) => {
+    const { user } = ctx.session!;
+    const { classid } = ctx.request.body;
+    await leaveClass(user, classid);
+    ctx.status = 200;
+    ctx.body = {
+        message: "Successfully left that class"
     };
     await next();
 });
