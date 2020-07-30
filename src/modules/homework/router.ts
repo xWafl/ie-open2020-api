@@ -78,10 +78,10 @@ router.get("/hwData/:hwId", requireAuthenticated(), async (ctx, next) => {
     if (!hwForUser) {
         throw new HttpError(400, "Something went wrong");
     }
-    if (!hwForUser.map(l => l.id).includes(hwId)) {
+    if (!hwForUser.map(l => l.id).includes(Number(hwId))) {
         throw new HttpError(400, "You don't have access to that");
     }
-    const hw = hwForUser.find(l => l.id === hwId)!;
+    const hw = hwForUser.find(l => l.id === Number(hwId))!;
     const questions = await getHwQuestions(hw.id);
     ctx.status = 200;
     ctx.body = {

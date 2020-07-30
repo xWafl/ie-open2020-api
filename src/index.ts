@@ -17,7 +17,7 @@ import websocket from "./modules/websockets/websocket";
 const app = new Koa();
 const router = new Router();
 
-const port = +(process.env.PORT || 8090);
+const port = +(process.env.PORT || 8100);
 
 app.use(bodyParser());
 app.use(json());

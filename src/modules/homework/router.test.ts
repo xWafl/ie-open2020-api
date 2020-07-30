@@ -77,6 +77,15 @@ describe("Homework router", () => {
         expect(response.body).to.deep.equal([homeworkResp]);
     });
 
+    it("Gets specific homework data", async () => {
+        const response = await agent
+            .get(`/api/homework/hwData/1`)
+            .set("Accept", "application/json")
+            .expect(200);
+
+        expect(response.body.classid).to.deep.equal(1);
+    });
+
     it("Can complete homework", async () => {
         const response = await agent
             .post(`/api/homework/completeHW`)

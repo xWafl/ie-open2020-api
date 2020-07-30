@@ -2,7 +2,7 @@ import Knex from "knex";
 
 export const up = async (knex: Knex) => {
     return knex.schema.table("classes", table => {
-        table.jsonb("studentStatus").defaultTo("offline");
+        table.jsonb("studentStatus");
     });
 };
 
