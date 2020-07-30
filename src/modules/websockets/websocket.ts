@@ -1,7 +1,7 @@
 import WebSocket from "ws";
 import categoryParser from "./middleware/categoryParser";
 import HandlerResponse from "./types/HandlerResponse";
-import { Difficulty } from "./gamesData";
+import newMessage from "./actions/newMessage";
 
 type WsRoutes<T> = {
     [K in keyof T]?: (
@@ -11,7 +11,7 @@ type WsRoutes<T> = {
 };
 
 interface WsRoutesData {
-    joinQueue: { id: number; difficulty: Difficulty };
+    newMessage: { id: number; message: string; classid: number };
     leaveQueue: number;
     switchQueueLocation: number;
     updateProgress: {
@@ -23,7 +23,9 @@ interface WsRoutesData {
     };
 }
 
-const wsRoutes: WsRoutes<WsRoutesData> = {};
+const wsRoutes: WsRoutes<WsRoutesData> = {
+    newMessage
+};
 
 export default async (
     wss: WebSocket.Server,
