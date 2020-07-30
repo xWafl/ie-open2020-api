@@ -10,6 +10,7 @@ import { HttpError } from "../../common/error/classes/httpError";
 import getAllHwForUser from "./actions/getAllHwForUser";
 import { requireAuthenticated } from "../auth/middleware/requireAuthenticated";
 import getHwForClass from "./actions/getHwForClass";
+import getHwQuestions from './actions/getHwQuestions';
 
 const router = new Router({ prefix: "/homework" });
 
@@ -80,10 +81,14 @@ router.get("/hwData/:hwId", requireAuthenticated(), async (ctx, next) => {
     if (!hwForUser.map(l => l.id).includes(hwId)) {
         throw new HttpError(400, "You don't have access to that");
     }
-    const hw = hwForUser.find(l => l.id === hwId);
+    const hw = hwForUser.find(l => l.id === hwId)!;
+    const questions = await getHwQuestions(hw.id);
     ctx.status = 200;
     ctx.body = {
-        hw
+        hw: {...hw, questions: questions.map(l => {
+            const { correctChoice, ...data } = l;
+            return data;
+        }))
     };
     await next();
 });
