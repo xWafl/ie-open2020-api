@@ -12,8 +12,22 @@ import { requireAuthenticated } from "../auth/middleware/requireAuthenticated";
 import userInClass from "../users/actions/userInClass";
 import getClassResources from "./actions/getClassResources";
 import deleteResource from "./actions/deleteResource";
+import getClassData from "./actions/getClassData";
 
 const router = new Router({ prefix: "/classes" });
+
+router.get("/:id", requireAuthenticated(), async (ctx, next) => {
+    const { id } = ctx.params;
+    const { user } = ctx.session!;
+    if (!(await userInClass(user, id))) {
+        throw new HttpError(401, "You are not in that class");
+    }
+
+    ctx.status = 200;
+    ctx.body = getClassData(id);
+
+    await next();
+});
 
 router.post("/joinClass", requireStudent(), async (ctx, next) => {
     const { classId } = ctx.request.body;
