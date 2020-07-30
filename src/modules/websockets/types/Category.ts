@@ -4,11 +4,14 @@ export type ResponseCategory =
     | "newMessage"
     | "loginClassResponse"
     | "leaveClassResponse"
-    | "studentStatusUpdate";
+    | "studentStatusUpdate"
+    | "messageList";
 
 export type IncomingCategory =
     | "ping"
-    | "joinQueue"
-    | "leaveQueue"
-    | "switchQueueLocation"
-    | "updateProgress";
+    | "loginClass"
+    | "leaveClass"
+    | "newMessage"
+    | "getMessages"
+    | "setOnline"
+    | "setAway";

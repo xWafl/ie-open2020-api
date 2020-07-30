@@ -2,6 +2,7 @@ import WebSocket from "ws";
 import categoryParser from "./middleware/categoryParser";
 import HandlerResponse from "./types/HandlerResponse";
 import newMessage from "./actions/newMessage";
+import getMessages from "./actions/getMessages";
 import loginClass from "./actions/loginClass";
 import leaveClass from "./actions/leaveClass";
 import setAway from "./actions/setAway";
@@ -16,6 +17,7 @@ type WsRoutes<T> = {
 
 interface WsRoutesData {
     newMessage: { id: number; message: string; classid: number };
+    getMessages: { id: number; message: string; classid: number };
     loginClass: { id: number; classid: number };
     leaveClass: { id: number; classid: number };
     setAway: { id: number; classid: number };
@@ -24,6 +26,7 @@ interface WsRoutesData {
 
 const wsRoutes: WsRoutes<WsRoutesData> = {
     newMessage,
+    getMessages,
     loginClass,
     leaveClass,
     setAway,
