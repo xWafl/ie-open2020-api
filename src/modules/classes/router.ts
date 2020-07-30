@@ -24,7 +24,7 @@ router.get("/:id", requireAuthenticated(), async (ctx, next) => {
     }
 
     ctx.status = 200;
-    ctx.body = getClassData(id);
+    ctx.body = await getClassData(id);
 
     await next();
 });
