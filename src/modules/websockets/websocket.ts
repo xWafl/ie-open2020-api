@@ -2,6 +2,8 @@ import WebSocket from "ws";
 import categoryParser from "./middleware/categoryParser";
 import HandlerResponse from "./types/HandlerResponse";
 import newMessage from "./actions/newMessage";
+import loginClass from "./actions/loginClass";
+import leaveClass from "./actions/leaveClass";
 
 type WsRoutes<T> = {
     [K in keyof T]?: (
@@ -12,7 +14,8 @@ type WsRoutes<T> = {
 
 interface WsRoutesData {
     newMessage: { id: number; message: string; classid: number };
-    leaveQueue: number;
+    loginClass: { id: number; classid: number };
+    leaveClass: { id: number; classid: number };
     switchQueueLocation: number;
     updateProgress: {
         key: number;
@@ -24,7 +27,9 @@ interface WsRoutesData {
 }
 
 const wsRoutes: WsRoutes<WsRoutesData> = {
-    newMessage
+    newMessage,
+    loginClass,
+    leaveClass
 };
 
 export default async (
