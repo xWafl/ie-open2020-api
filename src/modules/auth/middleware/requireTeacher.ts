@@ -18,7 +18,6 @@ export const requireTeacher = (): Middleware<DefaultState, Context> => async (
     }
 
     const user = await findUser("id", userId);
-
     if (user?.role !== "teacher") {
         throw new HttpError(401, "You don't seem to be a teacher");
     }

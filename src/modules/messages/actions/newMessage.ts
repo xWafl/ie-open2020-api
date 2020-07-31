@@ -8,13 +8,18 @@ export default async (
     classId: number
 ): Promise<Message | null> => {
     const time = Date.now();
-    if (!(await userInClass(author, classId))) {
+    if (!(await userInClass(Number(author), Number(classId)))) {
         return null;
     }
-    return await knex<Message>("messages").insert({
-        author,
-        message,
-        classId,
-        time
-    });
+    return (
+        await knex<Message>("messages").insert(
+            {
+                author,
+                message,
+                classId,
+                time
+            },
+            "*"
+        )
+    )[0];
 };
