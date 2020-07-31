@@ -44,7 +44,7 @@ router.post("/completeHW", requireStudent(), async (ctx, next) => {
     }
     ctx.status = 200;
     ctx.body = {
-        message: `You have completed an assignment! Your grade was ${resp.score}`
+        message: `You have completed an assignment!`
     };
     await next();
 });
@@ -88,14 +88,13 @@ router.get("/hwData/:hwId", requireAuthenticated(), async (ctx, next) => {
         throw new HttpError(400, "You don't have access to that");
     }
     const hw = hwForUser.find(l => l.id === Number(hwId))!;
-    const questions = await getHwQuestions(hw.id);
+    const question = await getHwQuestions(hw.id);
+    console.log("question", question);
+
     ctx.status = 200;
     ctx.body = {
         ...hw,
-        questions: questions.map(l => {
-            const { correctChoice, ...data } = l;
-            return data;
-        })
+        question
     };
     await next();
 });

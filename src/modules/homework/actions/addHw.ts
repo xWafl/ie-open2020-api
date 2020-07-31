@@ -32,6 +32,8 @@ export default async (
     if (!matchingClass) {
         return null;
     }
+    console.log(correctChoice);
+
     const newHWId = (await knex("homework")).length + 1;
     await knex<Question>("questions").insert(
         questions.map(l => ({
@@ -40,12 +42,15 @@ export default async (
             correctChoice: correctChoice ? correctChoice : ""
         }))
     );
+
     const dbQuestions = await knex<Question>("questions").where({
         homeworkid: newHWId
     });
 
+    // const resp = (
     await knex<Homework>("homework").insert(
         {
+            id: newHWId,
             classid,
             name,
             dueDate,
@@ -53,7 +58,7 @@ export default async (
         },
         "*"
     );
-
+    // )[0];
     // const modifiedRespQuestions = newHWProgress(
     //     newHWId,
     //     matchingClass.studentHWProgress,
