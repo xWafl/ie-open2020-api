@@ -22,25 +22,21 @@ export default async (
                 [userid]: status
             }
         });
-    return [
-        {
-            category: "studentStatusUpdate",
-            data: [
-                {
-                    client: classes[classid].teacher.ws!,
-                    data: {
-                        status,
-                        id: userid
-                    }
-                },
-                ...classes[classid].students.map(l => ({
-                    client: l.ws!,
-                    data: {
-                        status,
-                        id: userid
-                    }
-                }))
-            ]
+    const returning = classes[classid].students.map(l => ({
+        client: l.ws!,
+        data: {
+            status,
+            id: userid
         }
-    ];
+    }));
+    if (classes[classid]?.teacher) {
+        returning.push({
+            client: classes[classid].teacher.ws!,
+            data: {
+                status,
+                id: userid
+            }
+        });
+    }
+    return [{ category: "studentStatusUpdate", data: returning }];
 };
