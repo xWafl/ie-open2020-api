@@ -7,6 +7,9 @@ export default async (
     data: { id: number; classid: number },
     ws: WebSocket
 ): Promise<HandlerResponse[]> => {
+    if (!classes[data.classid]) {
+        return setUserStatus(data.id, data.classid, "offline");
+    }
     const studentInClass = classes[data.classid].students.findIndex(
         l => l.id === data.id
     );

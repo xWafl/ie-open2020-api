@@ -21,8 +21,7 @@ export default async (
                 ...matchingClass,
                 [userid]: status
             }
-        })
-        .first();
+        });
     return [
         {
             category: "studentStatusUpdate",
