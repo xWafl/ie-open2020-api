@@ -1,7 +1,12 @@
 import WebSocket from "ws";
 import categoryParser from "./middleware/categoryParser";
 import HandlerResponse from "./types/HandlerResponse";
-import { Difficulty } from "./gamesData";
+import newMessage from "./actions/newMessage";
+import getMessages from "./actions/getMessages";
+import loginClass from "./actions/loginClass";
+import leaveClass from "./actions/leaveClass";
+import setAway from "./actions/setAway";
+import setOnline from "./actions/setOnline";
 
 type WsRoutes<T> = {
     [K in keyof T]?: (
@@ -11,19 +16,22 @@ type WsRoutes<T> = {
 };
 
 interface WsRoutesData {
-    joinQueue: { id: number; difficulty: Difficulty };
-    leaveQueue: number;
-    switchQueueLocation: number;
-    updateProgress: {
-        key: number;
-        progress: number;
-        wpm: number;
-        rawwpm: number;
-        acc: number;
-    };
+    newMessage: { id: number; message: string; classid: number };
+    getMessages: { id: number; message: string; classid: number };
+    loginClass: { id: number; classid: number };
+    leaveClass: { id: number; classid: number };
+    setAway: { id: number; classid: number };
+    setOnline: { id: number; classid: number };
 }
 
-const wsRoutes: WsRoutes<WsRoutesData> = {};
+const wsRoutes: WsRoutes<WsRoutesData> = {
+    newMessage,
+    getMessages,
+    loginClass,
+    leaveClass,
+    setAway,
+    setOnline
+};
 
 export default async (
     wss: WebSocket.Server,
@@ -34,14 +42,17 @@ export default async (
     if (Object.keys(wsRoutes).includes(category)) {
         const response = await wsRoutes[category](data, ws);
         response.map(j => {
+            console.log(j);
             const { category: respCategory } = j;
             j.data.map((l: HandlerResponse["data"][0]) => {
-                l.client.send(
-                    JSON.stringify({
-                        category: respCategory,
-                        data: l.data
-                    })
-                );
+                if (l.client) {
+                    l.client.send(
+                        JSON.stringify({
+                            category: respCategory,
+                            data: l.data
+                        })
+                    );
+                }
             });
         });
     }

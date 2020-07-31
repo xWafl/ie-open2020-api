@@ -6,8 +6,7 @@ import User from "../types/User";
 const genNewKey = () =>
     Array(16)
         .fill(0)
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .map(_ =>
+        .map(() =>
             Math.random()
                 .toString(36)
                 .charAt(2)
@@ -15,13 +14,12 @@ const genNewKey = () =>
         .join("");
 
 export const createUser = async (
-    user: Pick<User, "email" | "name" | "password">
+    user: Pick<User, "name" | "password" | "role">
 ) => {
     const isTaken = Boolean(
         await knex<User>("users")
             .select("id")
             .where({ name: user.name || "" })
-            .orWhere({ email: user.email || "" })
             .first()
     );
     if (isTaken) return null;
@@ -30,9 +28,9 @@ export const createUser = async (
         await knex<User>("users").insert(
             {
                 ...user,
-                role: "unverified",
                 password: encryptedPassword,
-                emailKey: genNewKey()
+                classes: [],
+                emailkey: genNewKey()
             },
             "*"
         )

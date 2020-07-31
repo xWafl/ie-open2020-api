@@ -14,7 +14,7 @@ export default async <T extends keyof Omit<User, "password">>(
     if (!result) return null;
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, emailKey, ...data } = result;
+    const { password, emailkey, ...data } = result;
 
     return data;
 };

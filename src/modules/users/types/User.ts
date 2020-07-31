@@ -1,10 +1,13 @@
-type Role = "unverified" | "member" | "admin";
+type Role = "student" | "teacher" | "admin";
+
+type StudentStatus = "online" | "idle" | "offline";
 
 export default interface User {
     id: number;
-    email: string;
     name: string;
     password: string;
     role: Role;
-    emailKey?: string;
+    emailkey?: string;
+    classes: number[];
+    studentStatus: Record<number, StudentStatus>;
 }
