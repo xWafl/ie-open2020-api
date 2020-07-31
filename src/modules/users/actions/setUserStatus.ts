@@ -28,14 +28,14 @@ export default async (
             category: "studentStatusUpdate",
             data: [
                 {
-                    client: classes[classid].teacher.ws,
+                    client: classes[classid].teacher.ws!,
                     data: {
                         status,
                         id: userid
                     }
                 },
                 ...classes[classid].students.map(l => ({
-                    client: l.ws,
+                    client: l.ws!,
                     data: {
                         status,
                         id: userid
