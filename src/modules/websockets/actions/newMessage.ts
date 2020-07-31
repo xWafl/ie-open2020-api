@@ -25,7 +25,7 @@ export default async (
         {
             category: "newMessage",
             data: classes[data.classid].students.map(l => ({
-                client: l.ws,
+                client: l.ws!,
                 data: resp
             }))
         }

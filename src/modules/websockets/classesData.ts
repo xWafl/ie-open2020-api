@@ -4,7 +4,7 @@ export type StudentStatus = "online" | "idle" | "offline";
 
 export interface Student {
     id: number;
-    ws: WebSocket;
+    ws: WebSocket | null;
 }
 
 export interface Class {

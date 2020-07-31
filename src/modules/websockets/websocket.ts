@@ -44,12 +44,14 @@ export default async (
         response.map(j => {
             const { category: respCategory } = j;
             j.data.map((l: HandlerResponse["data"][0]) => {
-                l.client.send(
-                    JSON.stringify({
-                        category: respCategory,
-                        data: l.data
-                    })
-                );
+                if (l.client) {
+                    l.client.send(
+                        JSON.stringify({
+                            category: respCategory,
+                            data: l.data
+                        })
+                    );
+                }
             });
         });
     }
