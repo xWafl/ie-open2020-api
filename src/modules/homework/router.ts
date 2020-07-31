@@ -19,8 +19,14 @@ router.post(
     requireTeacher(),
     validateSchema(homeworkBody, "body"),
     async (ctx, next) => {
-        const { classid, name, dueDate, questions } = ctx.request.body;
-        await addHw(classid, name, dueDate, questions);
+        const {
+            classid,
+            name,
+            dueDate,
+            questions,
+            correctChoice
+        } = ctx.request.body;
+        await addHw(classid, name, dueDate, questions, correctChoice);
         ctx.status = 201;
         ctx.body = {
             message: "Successfully added homework"
