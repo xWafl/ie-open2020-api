@@ -3,6 +3,7 @@ import HandlerResponse from "../types/HandlerResponse";
 import Message from "../../messages/types/Message";
 import knex from "../../../../db/knex";
 import User from "../../users/types/User";
+import { classes } from "../classesData";
 
 export default async (
     data: { id: number; classid: number },
@@ -18,6 +19,12 @@ export default async (
                 .first()
         )
     );
+    if (!classes[data.classid].students.map(l => l.id).includes(data.id)) {
+        classes[data.classid].students.push({
+            ws,
+            id: data.id
+        });
+    }
     return [
         {
             category: "messageList",

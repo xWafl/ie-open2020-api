@@ -42,6 +42,7 @@ export default async (
     if (Object.keys(wsRoutes).includes(category)) {
         const response = await wsRoutes[category](data, ws);
         response.map(j => {
+            console.log(j);
             const { category: respCategory } = j;
             j.data.map((l: HandlerResponse["data"][0]) => {
                 if (l.client) {

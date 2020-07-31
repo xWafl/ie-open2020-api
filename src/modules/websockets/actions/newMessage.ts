@@ -45,6 +45,12 @@ export default async (
             ]
         };
     }
+    if (!classes[data.classid].students.map(l => l.id).includes(data.id)) {
+        classes[data.classid].students.push({
+            ws,
+            id: data.id
+        });
+    }
     return [
         {
             category: "newMessage",
