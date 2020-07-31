@@ -22,6 +22,11 @@ export default async (
                 [userid]: status
             }
         });
+
+    if (!classes[classid]) {
+        return [];
+    }
+
     const returning = classes[classid].students.map(l => ({
         client: l.ws!,
         data: {

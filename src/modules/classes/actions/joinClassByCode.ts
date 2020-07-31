@@ -29,6 +29,7 @@ export default async (userid: number, code: string) => {
             classes: knex.raw("array_append(classes, ?)", [matchingClass.id])
         })
         .where({ id: userid });
+    console.log(matchingClass);
     await knex("classes")
         .update({
             students: knex.raw("array_append(students, ?)", [userid]),

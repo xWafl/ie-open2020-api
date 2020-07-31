@@ -4,13 +4,16 @@ import addHw from "./actions/addHw";
 import { validateSchema } from "../schema/middleware/validateSchema";
 import { homeworkBody } from "./schema/homeworkBody";
 import { requireStudent } from "../auth/middleware/requireStudent";
-import checkHwScore from "./actions/checkHwScore";
+import userInClass from "../users/actions/userInClass";
 import completeHw from "./actions/completeHw";
 import { HttpError } from "../../common/error/classes/httpError";
 import getAllHwForUser from "./actions/getAllHwForUser";
 import { requireAuthenticated } from "../auth/middleware/requireAuthenticated";
 import getHwForClass from "./actions/getHwForClass";
 import getHwQuestions from "./actions/getHwQuestions";
+import knex from "../../../db/knex";
+import Homework from "./types/Homework";
+import Class from "../classes/types/Class";
 
 const router = new Router({ prefix: "/homework" });
 
@@ -48,6 +51,24 @@ router.post("/completeHW", requireStudent(), async (ctx, next) => {
     };
     await next();
 });
+
+router.post(
+    "/completionProgressForClass",
+    requireAuthenticated(),
+    async (ctx, next) => {
+        const { user } = ctx.session!;
+        const { classid } = ctx.request.body;
+        const userAllowed = await userInClass(user, classid);
+        if (!userAllowed) {
+            throw new HttpError(401, "You're not allowed to do that");
+        }
+        const classData = (await knex<Class>("classes")
+            .where({ id: classid })
+            .first())!;
+        ctx.status = 200;
+        ctx.body = classData.studentHWProgress;
+    }
+);
 
 router.get("/allHWForUser", requireStudent(), async (ctx, next) => {
     const { user } = ctx.session!;
