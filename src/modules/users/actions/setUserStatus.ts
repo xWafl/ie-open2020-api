@@ -18,7 +18,7 @@ export default async (
         .where({ id: classid })
         .update({
             studentStatus: {
-                ...matchingClass,
+                ...matchingClass.studentStatus,
                 [userid]: status
             }
         });
