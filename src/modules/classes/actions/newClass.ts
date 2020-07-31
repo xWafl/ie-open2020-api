@@ -18,7 +18,7 @@ export default async (teacher: number, name: string) => {
             {
                 teacher,
                 name,
-                students: [],
+                students: [teacher],
                 code: genNewKey(),
                 homework: [],
                 studentHWProgress: {}
